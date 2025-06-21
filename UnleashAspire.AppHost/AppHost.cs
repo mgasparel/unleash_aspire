@@ -13,10 +13,9 @@ var unleash = builder.AddContainer("unleash", "unleashorg/unleash-server")
     .WithEnvironment(context =>
     {
         var unleashPostgresEndpoint = unleashPostgres.GetEndpoint("tcp");
-        var unleashPostgresHost = unleashPostgresEndpoint.Property(EndpointProperty.Host);
-        var unleashPostgresPort = unleashPostgresEndpoint.Property(EndpointProperty.Port);
+        var unleashPostgresPort = unleashPostgresEndpoint.Property(EndpointProperty.TargetPort);
 
-        context.EnvironmentVariables["DATABASE_HOST"] = unleashPostgresHost;
+        context.EnvironmentVariables["DATABASE_HOST"] = unleashPostgres.Resource.Name;
         context.EnvironmentVariables["DATABASE_PORT"] = unleashPostgresPort;
         context.EnvironmentVariables["DATABASE_NAME"] = unleashDb.Resource.DatabaseName;
         context.EnvironmentVariables["DATABASE_USERNAME"] = unleashPostgres.Resource.UserNameParameter!.Value;
